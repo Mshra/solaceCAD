@@ -1,85 +1,69 @@
 import * as THREE from "three";
-main();
 
+/** Start of Solace CAD */
 function main() {
-  const canvas = document.querySelector("#c") as HTMLCanvasElement;
-  const renderer = new THREE.WebGLRenderer({ antialias: true, canvas });
-
-  const fov = 75;
-  const aspect = 2;
-  const near = 0.1;
-  const far = 5;
-  const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-
-  camera.position.z = 2;
-
+  const canvas = Canvas();
   const scene = new THREE.Scene();
+  const renderer = new THREE.WebGLRenderer({ antialias: true, canvas });
+  const camera = new THREE.PerspectiveCamera(75, 2, 0.1, 500);
+  const light = new THREE.DirectionalLight(0xffffff, 3);
 
-  const boxWidth = 1;
-  const boxHeight = 1;
-  const boxDepth = 1;
-  const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth);
+  light.position.set(2, 2, 4);
+  camera.position.set(4, 2, 4);
+  camera.rotateY(Math.PI / 4);
 
-  function makeInstance(
-    geometry: THREE.BoxGeometry,
-    color: number,
-    x: number,
-  ): THREE.Mesh<
+  const geometry = new THREE.BoxGeometry(1, 1, 1);
+  const material = new THREE.MeshPhongMaterial({ color: 0x44aa88 });
+  const cube = new THREE.Mesh(geometry, material);
+  const gridHelper = new THREE.GridHelper(10, 10);
+
+  scene.add(cube);
+  scene.add(light);
+  scene.add(gridHelper);
+
+  renderer.setAnimationLoop(() => animate(cube, renderer, scene, camera));
+}
+
+/** @return {HTMLCanvasElement} An empty canvas with id="c". */
+function Canvas(): HTMLCanvasElement {
+  const canvas = document.createElement("canvas");
+  canvas.setAttribute("id", "c");
+  document.body.appendChild(canvas);
+  return canvas;
+}
+
+function animate(
+  cube: THREE.Mesh<
     THREE.BoxGeometry,
     THREE.MeshPhongMaterial,
     THREE.Object3DEventMap
-  > {
-    const material = new THREE.MeshPhongMaterial({ color });
-
-    const cube = new THREE.Mesh(geometry, material);
-    scene.add(cube);
-
-    cube.position.x = x;
-    return cube;
-  }
-
-  const cubes = [
-    makeInstance(geometry, 0x44aa88, 0),
-    makeInstance(geometry, 0x8844aa, -2),
-    makeInstance(geometry, 0xaa8844, 2),
-  ];
-
-  function resizeRendererToDisplaySize(renderer: THREE.WebGLRenderer) {
+  >,
+  renderer: THREE.WebGLRenderer,
+  scene: THREE.Scene,
+  camera: THREE.PerspectiveCamera,
+) {
+  if (resizeRendererToDisplaySize(renderer)) {
     const canvas = renderer.domElement;
-    const pixelRatio = window.devicePixelRatio;
-    const width = Math.floor(canvas.clientWidth * pixelRatio);
-    const height = Math.floor(canvas.clientHeight * pixelRatio);
-    const needResize = canvas.width !== width || canvas.height !== height;
-    if (needResize) {
-      renderer.setSize(width, height, false);
-    }
-    return needResize;
+    camera.aspect = canvas.clientWidth / canvas.clientHeight;
+    camera.updateProjectionMatrix();
   }
 
-  function render(time: number) {
-    time *= 0.001; // convert time to seconds
+  cube.rotation.x += 0.01;
+  cube.rotation.y += 0.01;
 
-    if (resizeRendererToDisplaySize(renderer)) {
-      const canvas = renderer.domElement;
-      camera.aspect = canvas.clientWidth / canvas.clientHeight;
-      camera.updateProjectionMatrix();
-    }
-
-    cubes.forEach((cube, ndx) => {
-      const speed = 1 + ndx * 0.1;
-      const rot = time * speed;
-      cube.rotation.x = rot;
-      cube.rotation.y = rot;
-    });
-
-    renderer.render(scene, camera);
-    requestAnimationFrame(render);
-  }
-  requestAnimationFrame(render);
-
-  const color = 0xffffff;
-  const intensity = 3;
-  const light = new THREE.DirectionalLight(color, intensity);
-  light.position.set(-1, 2, 4);
-  scene.add(light);
+  renderer.render(scene, camera);
 }
+
+function resizeRendererToDisplaySize(renderer: THREE.WebGLRenderer) {
+  const canvas = renderer.domElement;
+  const pixelRatio = window.devicePixelRatio;
+  const width = Math.floor(canvas.clientWidth * pixelRatio);
+  const height = Math.floor(canvas.clientHeight * pixelRatio);
+  const needResize = canvas.width !== width || canvas.height !== height;
+  if (needResize) {
+    renderer.setSize(width, height, false);
+  }
+  return needResize;
+}
+
+export default main;
