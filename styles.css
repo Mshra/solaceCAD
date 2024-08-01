@@ -49,3 +49,13 @@ body {
 #properties {
     background-color: #171717;
 }
+
+#items {
+    background-color: green;
+    list-style-type: none;
+    color: white;
+    margin: 2px;
+}
+#items > li:nth-child(even) {
+    background-color: black;
+}
