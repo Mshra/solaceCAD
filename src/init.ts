@@ -1,9 +1,9 @@
 import WebGL from "three/addons/capabilities/WebGL.js";
-import makeUI from "./ui/main";
-import initCanvas from "./canvas/main";
+import makeUI from "./ui/main.ts";
+import initCanvas from "./canvas/main.ts";
 
 if (WebGL.isWebGL2Available()) {
-  makeUI()
+  makeUI();
   initCanvas();
 } else {
   document.body.appendChild(WebGL.getWebGL2ErrorMessage());
