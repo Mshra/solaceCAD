@@ -10,11 +10,12 @@
   },
   "devDependencies": {
     "typescript": "^5.2.2",
-    "vite": "^5.3.4"
+    "vite": "^5.3.4",
+    "@types/bun": "latest"
   },
   "dependencies": {
     "@types/three": "^0.167.1",
-    "stats.js": "^0.17.0",
     "three": "^0.167.0"
-  }
+  },
+  "module": "index.ts"
 }
