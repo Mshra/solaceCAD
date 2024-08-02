@@ -1,59 +1,69 @@
-export default function makeUI() {
-  const menubar = document.createElement("div");
-  menubar.setAttribute("id", "menubar");
-  document.body.appendChild(menubar);
+const menubar = document.createElement("div");
+menubar.setAttribute("id", "menubar");
+document.body.appendChild(menubar);
 
-  menubar.onmouseover = () => {
-    menubar.style.cursor = "default";
-  };
+menubar.onmouseover = () => {
+  menubar.style.cursor = "default";
+};
 
-  const file = document.createElement("div");
-  file.textContent = "File";
-  menubar.appendChild(file);
+const file = document.createElement("div");
+file.textContent = "File";
+menubar.appendChild(file);
 
-  const edit = document.createElement("div");
-  edit.textContent = "Edit";
-  menubar.appendChild(edit);
+const edit = document.createElement("div");
+edit.textContent = "Edit";
+menubar.appendChild(edit);
 
-  /** ------------------------------------- */
-  const mainWindow = document.createElement("div");
-  mainWindow.setAttribute("id", "main-window");
-  document.body.appendChild(mainWindow);
+const add = document.createElement("div");
+add.textContent = "Add";
+menubar.appendChild(add);
 
-  /** ------------------------------------- */
-  const canvas = document.createElement("canvas");
-  canvas.setAttribute("id", "c");
-  mainWindow.appendChild(canvas);
+/** ------------------------------------- */
+const mainWindow = document.createElement("div");
+mainWindow.setAttribute("id", "main-window");
+document.body.appendChild(mainWindow);
 
-  /** ------------------------------------- */
-  const resizer = document.createElement("div");
-  resizer.setAttribute("id", "resizer");
-  mainWindow.appendChild(resizer);
+/** ------------------------------------- */
+const canvas = document.createElement("canvas");
+canvas.setAttribute("id", "c");
+mainWindow.appendChild(canvas);
 
-  /** ------------------------------------- */
-  const propertiesPane = document.createElement("div");
-  propertiesPane.setAttribute("id", "properties");
-  mainWindow.appendChild(propertiesPane);
+/** ------------------------------------- */
+const resizer = document.createElement("div");
+resizer.setAttribute("id", "resizer");
+mainWindow.appendChild(resizer);
 
-  /** */
-  let isdragging = false;
+/** ------------------------------------- */
+const propertiesPane = document.createElement("div");
+propertiesPane.setAttribute("id", "properties");
+mainWindow.appendChild(propertiesPane);
 
-  function resize(e: MouseEvent) {
-    if (isdragging) {
-      canvas.style.width = `${e.clientX}px`;
-    }
+/** */
+let isdragging = false;
+
+function resize(e: MouseEvent) {
+  if (isdragging) {
+    canvas.style.width = `${e.clientX}px`;
   }
-
-  resizer.onmousedown = () => {
-    isdragging = true;
-    document.body.style.cursor = "col-resize";
-  };
-
-  document.body.addEventListener("mousemove", resize);
-
-  document.body.onmouseup = () => {
-    isdragging = false;
-    document.body.style.cursor = "default";
-  };
-
 }
+
+resizer.onmousedown = () => {
+  isdragging = true;
+  document.body.style.cursor = "col-resize";
+};
+
+document.body.addEventListener("mousemove", resize);
+
+document.body.onmouseup = () => {
+  isdragging = false;
+  document.body.style.cursor = "default";
+};
+
+/** add functionality */
+add.onmouseenter = () => {
+  console.log("pointer hovering");
+};
+
+add.onmouseleave = () => {
+  console.log("pointer removed");
+};
