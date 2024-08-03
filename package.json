@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "bunx --bun vite",
+    "prebuild": "bun install",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
