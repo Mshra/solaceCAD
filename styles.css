@@ -38,7 +38,7 @@ body {
     top: 32px;
     height: calc(100vh - 32px);
     width: 1500px;
-    max-width:;
+    max-width: 1700px;
 }
 
 #resizer {

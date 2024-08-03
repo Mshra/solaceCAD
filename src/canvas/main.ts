@@ -1,3 +1,4 @@
+import "@/ui/main";
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
@@ -7,7 +8,7 @@ const camera = new THREE.PerspectiveCamera(75, 2, 0.1, 500);
 const gridHelper = new THREE.GridHelper(20, 20);
 const scene = new THREE.Scene();
 
-export default function initCanvas() {
+export default function () {
   scene.background = new THREE.Color(0x171717);
 
   camera.position.set(10, 10, 8);
